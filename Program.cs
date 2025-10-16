@@ -17,10 +17,11 @@ class Program
         
         //initial book library for the while true
         var library = new Book();
-        
+        var activeLoans = new List<Loan>();
+
         while (true)
         { 
-            Console.WriteLine("what would you like to do?\n1. Borrow a book\n2. Return a book\n3. Show available books");
+            Console.WriteLine("what would you like to do?\n1. Borrow a book\n2. Return a book\n3. Show available books\n4. Show active loans");
             int answer = int.Parse(Console.ReadLine());
             Console.Clear();
             if (answer == 1)
@@ -37,8 +38,14 @@ class Program
 
                 else if (library.Books.ContainsKey(borrowName))
                 {
-                    Console.WriteLine("This book will be added to your borrowed books.");
                     library.BorrowedBooks.Add(borrowName, "");
+                    var borrowedBook = new Book();
+                    
+                    var loan = new Loan(user1, borrowedBook);
+                    activeLoans.Add(loan);
+                    Console.WriteLine($"Loan created for {user1.Name} borrowing {borrowName}.");
+
+                    
                     Thread.Sleep(1500);
                     Console.Clear();
                 }
@@ -84,6 +91,5 @@ class Program
                 }
             }
         }
-
     }
 }
