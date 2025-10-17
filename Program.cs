@@ -1,4 +1,5 @@
-﻿using Librarysystem.Classes;
+﻿using System.Globalization;
+using Librarysystem.Classes;
 
 namespace Librarysystem;
 
@@ -6,14 +7,6 @@ class Program
 {                                                                       
     static void Main(string[] args)                                     
     {                                                                   
-        //Console.WriteLine("please enter your email address:");          
-        //string Email = Console.ReadLine();                              
-        //Console.WriteLine("please enter your adress:");                 
-        //string Adress = Console.ReadLine();                             
-        //Console.WriteLine("please enter your name:");                   
-        //string Name = Console.ReadLine();                               
-        //User user1 = new User(Name, Email, Adress);
-        //Console.Clear();
         string Adress = "Lundaspis 12E";
         string Email = "gustavk1@live.se";
         string Name = "Gustav";
@@ -93,9 +86,9 @@ class Program
             else if (answer == 3)
             {
                 Console.WriteLine("Available books:\n");
-                foreach (var book in library.Books)
+                if (library.Books.Values.Any(v => v != 0))
                 {
-                    if (library.Books.Keys.Count != 0)
+                    foreach (var book in library.Books)
                     {
                         Console.WriteLine($"Title: {book.Key}, Copies: {book.Value}");
                     }
@@ -107,14 +100,18 @@ class Program
             
             else if (answer == 4)
             {
-                Console.WriteLine($"Unavailable books:");
+                Console.WriteLine($"Active loans:");
                 foreach (var book in library.BorrowedBooks)
-                { 
-                    Console.WriteLine($"Title: {book.Key}, Copies: {book.Value}");
+                {
+                    if (library.BorrowedBooks.Values.Any(k => k != 0))
+                    {
+                        Console.WriteLine($"Title: {book.Key}, Copies: {book.Value}");
+                    }
                 }
                 
                 Console.WriteLine("\nPress any key to continue...");
                 Console.ReadKey();
+                Console.Clear();
             }
         }
     }
