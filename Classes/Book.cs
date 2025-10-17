@@ -2,27 +2,27 @@ namespace Librarysystem.Classes;
 
 public class Book
 {
-    public Dictionary<string, string> Books { get; private set; }
-    public Dictionary<string, string> BorrowedBooks { get; private set; }
+    public Dictionary<string, int> Books { get; private set; }
+    public Dictionary<string, int> BorrowedBooks { get; private set; }
 
     public Book()
     {
         
-        Books = new Dictionary<string, string>
+        Books = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
-            { "Moby Dick", ""},
-            { "1984", ""},
-            { "Sagan om ringen", ""},
-            { "Harry Potter och De Vises Sten", ""},
-            { "Brott och straff", ""},
-            { "Stolthet och fördom", ""},
-            { "Hungerspelen", ""},
-            { "Da Vinci-koden", ""},
-            { "Den gamle och havet", ""},
-            { "Anne Franks dagbok", ""}
+            { "Moby Dick", 2},
+            { "1984", 4},
+            { "Sagan om ringen", 1},
+            { "Harry Potter och De Vises Sten", 5},
+            { "Brott och straff", 4},
+            { "Stolthet och fördom", 8},
+            { "Hungerspelen", 1},
+            { "Da Vinci-koden", 2},
+            { "Den gamle och havet", 4},
+            { "Anne Franks dagbok", 5}
         };
 
-        BorrowedBooks = new Dictionary<string, string> { };
+        BorrowedBooks = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
     }
     

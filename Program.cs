@@ -2,22 +2,27 @@
 
 namespace Librarysystem;
 
-class Program
-{
-    static void Main(string[] args)
-    {
-        Console.WriteLine("please enter your email address:");
-        string Email = Console.ReadLine();
-        Console.WriteLine("please enter your adress:");
-        string Adress = Console.ReadLine();
-        Console.WriteLine("please enter your name:");
-        string Name = Console.ReadLine();
-        User user1 = new User(Name, Email, Adress);
-        Console.Clear();
+class Program                                                           
+{                                                                       
+    static void Main(string[] args)                                     
+    {                                                                   
+        //Console.WriteLine("please enter your email address:");          
+        //string Email = Console.ReadLine();                              
+        //Console.WriteLine("please enter your adress:");                 
+        //string Adress = Console.ReadLine();                             
+        //Console.WriteLine("please enter your name:");                   
+        //string Name = Console.ReadLine();                               
+        //User user1 = new User(Name, Email, Adress);
+        //Console.Clear();
+        string Adress = "Lundaspis 12E";
+        string Email = "gustavk1@live.se";
+        string Name = "Gustav";
+        User user1 = new User(Name, Email, Adress); 
         
         //initial book library for the while true
         var library = new Book();
         var activeLoans = new List<Loan>();
+        string borrowName = "";
 
         while (true)
         { 
@@ -27,25 +32,31 @@ class Program
             if (answer == 1)
             {
                 Console.WriteLine("What book would you like to borrow?");
-                string borrowName = Console.ReadLine();
+                borrowName = Console.ReadLine().Trim();
                 
-                if (library.BorrowedBooks.ContainsKey(borrowName))
+                if (library.Books[borrowName] == 0)
                 {
-                    Console.WriteLine("This book is already borrowed.");
+                    Console.WriteLine($"No more copies of '{borrowName}' left!");
                     Thread.Sleep(1500);
                     Console.Clear();
                 }
 
                 else if (library.Books.ContainsKey(borrowName))
                 {
-                    library.BorrowedBooks.Add(borrowName, "");
+                    library.Books[borrowName]--;
+
+                    if (!library.BorrowedBooks.ContainsKey(borrowName))
+                    {
+                        library.BorrowedBooks.Add(borrowName, 1);
+                    }
+                    
+                    library.BorrowedBooks[borrowName]++;
                     var borrowedBook = new Book();
                     
                     var loan = new Loan(user1, borrowedBook);
                     activeLoans.Add(loan);
                     Console.WriteLine($"Loan created for {user1.Name} borrowing {borrowName}.");
 
-                    
                     Thread.Sleep(1500);
                     Console.Clear();
                 }
@@ -62,10 +73,11 @@ class Program
             else if (answer == 2)
             {
                 Console.WriteLine("What book would you like to return?");
-                string returnName = Console.ReadLine();
+                string returnName = Console.ReadLine().Trim();
                 if (library.BorrowedBooks.ContainsKey(returnName))
                 {
-                    library.BorrowedBooks.Remove(returnName);
+                    library.Books[returnName]++;
+                    library.BorrowedBooks[borrowName]--;
                     Console.WriteLine("Book has been returned.");
                     Thread.Sleep(1500);
                     Console.Clear();
@@ -83,11 +95,25 @@ class Program
                 Console.WriteLine("Available books:\n");
                 foreach (var book in library.Books)
                 {
-                    if (!library.BorrowedBooks.ContainsKey(book.Key))
+                    if (library.Books.Keys.Count != 0)
                     {
-                        Console.WriteLine($"{book.Key}");
-                        
+                        Console.WriteLine($"Title: {book.Key}, Copies: {book.Value}");
                     }
+                }
+
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
+            }
+            
+            else if (answer == 4)
+            {
+                Console.WriteLine($"Unavailable books:");
+                foreach (var book in library.BorrowedBooks)
+                {
+                    Console.WriteLine($"{book.Key}");
+                    Console.WriteLine("\nPress any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
             }
         }
