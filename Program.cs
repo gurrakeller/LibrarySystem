@@ -47,7 +47,7 @@ class Program
 
                     if (!library.BorrowedBooks.ContainsKey(borrowName))
                     {
-                        library.BorrowedBooks.Add(borrowName, 1);
+                        library.BorrowedBooks.Add(borrowName, 0);
                     }
                     
                     library.BorrowedBooks[borrowName]++;
@@ -109,12 +109,12 @@ class Program
             {
                 Console.WriteLine($"Unavailable books:");
                 foreach (var book in library.BorrowedBooks)
-                {
-                    Console.WriteLine($"{book.Key}");
-                    Console.WriteLine("\nPress any key to continue...");
-                    Console.ReadKey();
-                    Console.Clear();
+                { 
+                    Console.WriteLine($"Title: {book.Key}, Copies: {book.Value}");
                 }
+                
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
             }
         }
     }
